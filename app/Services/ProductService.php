@@ -56,7 +56,7 @@ class ProductService
             $validator = Validator::make($request->all(), [
                 'title' => 'required|max:100',
                 'description' => 'required|max:150',
-                'price' => 'required|max:150',
+                'price' => 'required|numeric|max:150',
                 'image' => 'mimes:jpeg,jpg,png,gif|max:5120',
 
             ]);
@@ -66,6 +66,7 @@ class ProductService
 
                 return ['message' => $errors, "StatusCode" => 200];
             }
+
 
 
             $image1 = date('Ymdhis') . '.' .  $image->getClientOriginalExtension();
@@ -80,29 +81,62 @@ class ProductService
             return ['message' => "created successfully", "StatusCode" => 200];
         } catch (Exception $e) {
             return ['message' => $e->getMessage(), "StatusCode" => 400];
-        } catch (\Illuminate\Validation\ValidationException $e) {
-
-            $arrError = $e->errors();
-
-            foreach ($arrError as $key => $value) {
-                $arrImplode[] = implode(', ', $arrError[$key]);
-            }
-            $message = implode(', ', $arrImplode);
-            /**
-             * Populate the respose array for the JSON
-             */
-            $arrResponse = array(
-                'result' => 0,
-                'reason' => $message,
-                'data' => array(),
-                'statusCode' => $e->status,
-            );
         }
     }
 
 
 
-    public function editProducts()
+    public function UpdateProduct($request, $id)
     {
+
+        try {
+
+            $title = $request->title;
+            $description = $request->description;
+            $price = $request->price;
+            $image = $request->image;
+
+            $validator = Validator::make($request->all(), [
+                'title' => 'required|max:100',
+                'description' => 'required|max:150',
+                'price' => 'required|numeric|max:150',
+                // 'image' => 'mimes:jpeg,jpg,png,gif|max:5120',
+
+            ]);
+            if ($validator->fails()) {
+                $messages = $validator->messages();
+                $errors = $messages->all();
+
+                return ['message' => $errors, "StatusCode" => 200];
+            }
+
+            if ($image) {
+                $image1 = date('Ymdhis') . '.' .  $image->getClientOriginalExtension();
+                if ($image->move(public_path() . '/image/product/', $image1)) {
+
+                    $image = '/image/product/' . $image1;
+                }
+            }
+
+
+
+            $store = $this->ProductRepository->UpdateProduct($title, $description, $price, $image, $id);
+
+            return ['message' => "updated successfully", "StatusCode" => 200];
+        } catch (Exception $e) {
+            return ['message' => $e->getMessage(), "StatusCode" => 400];
+        }
+    }
+
+
+    public function destroySingleProduct($id){
+
+        $product = $this->ProductRepository->deleteSingleProduct($id);
+
+        if ($product) {
+            return [ 'message' => "Deleted successfully", 'StatusCode' => 200];
+        } else {
+            return ['message' => "product not found", 'StatusCode' => 202];
+        }
     }
 }

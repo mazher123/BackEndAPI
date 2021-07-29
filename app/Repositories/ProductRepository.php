@@ -32,9 +32,28 @@ class ProductRepository
     }
 
 
-    public function getSingleProduct($id){
+    public function getSingleProduct($id)
+    {
 
         $product = Product::find($id);
+        return $product;
+    }
+
+
+    public function UpdateProduct($title, $description, $price, $image, $id)
+    {
+        $product = Product::find($id);
+        $product->title = $title;
+        $product->description = $description;
+        $product->price = $price;
+        $product->image = $image;
+        $product->Save();
+    }
+
+
+    public function deleteSingleProduct($id)
+    {
+        $product = Product::destroy($id);
         return $product;
     }
 }

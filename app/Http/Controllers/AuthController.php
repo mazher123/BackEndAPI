@@ -67,9 +67,9 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
-        if ($this->loginAfterSignUp) {
-            return $this->login($request);
-        }
+        // if ($this->loginAfterSignUp) {
+        //     return $this->login($request);
+        // }
 
         return response()->json([
             "status" => true,
@@ -77,26 +77,11 @@ class AuthController extends Controller
         ]);
     }
 
-
-
-
-
-
-    /**
-     * Get the authenticated User
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function me()
     {
         return response()->json($this->guard()->user());
     }
 
-    /**
-     * Log the user out (Invalidate the token)
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
 
 
     public function logout(Request $request)
@@ -120,11 +105,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function refresh()
     {
         return $this->respondWithToken($this->guard()->refresh());

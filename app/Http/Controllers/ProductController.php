@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function index()
     {
         $data = $this->ProductService->showProducts();
-        return response()->json(['data' => $data['data'], 'Message' => $data['message'], 'StatusCode' => $data['statusCode']]);
+        return response()->json(['data' => $data['data'], 'Message' => $data['message'], 'StatusCode' => $data['StatusCode']]);
     }
 
     /**
@@ -61,8 +61,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $data = $this->ProductService->showSingleProduct($id);
-        return response()->json(['data'=> $data['data'],'Message' => $data['message'], 'StatusCode' => $data['StatusCode']]);
-  
+        return response()->json(['data' => $data['data'], 'Message' => $data['message'], 'StatusCode' => $data['StatusCode']]);
     }
 
     /**
@@ -73,8 +72,6 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $data = $this->ProductService->editProducts($id);
-        return response()->json(['Message' => $data['message'], 'StatusCode' => $data['StatusCode']]);
     }
 
     /**
@@ -86,7 +83,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $formdata = $request;
+        $data = $this->ProductService->UpdateProduct($formdata , $id);
+        return response()->json(['Message' => $data['message'], 'StatusCode' => $data['StatusCode']]);
+  
     }
 
     /**
@@ -97,6 +97,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = $this->ProductService->destroySingleProduct($id);
+        return response()->json(['Message' => $data['message'], 'StatusCode' => $data['StatusCode']]);
+ 
     }
 }
