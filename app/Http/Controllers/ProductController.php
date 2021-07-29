@@ -60,7 +60,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = $this->ProductService->showSingleProduct($id);
+        return response()->json(['data'=> $data['data'],'Message' => $data['message'], 'StatusCode' => $data['StatusCode']]);
+  
     }
 
     /**

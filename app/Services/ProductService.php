@@ -25,9 +25,22 @@ class ProductService
 
         if ($products) {
 
-            return ['data' => $products, 'message' => "product found", 'statusCode' => 200];
+            return ['data' => $products, 'message' => "product found", 'StatusCode' => 200];
         } else {
-            return ['data' => $products, 'message' => "product not found", 'statusCode' => 202];
+            return ['data' => $products, 'message' => "product not found", 'StatusCode' => 202];
+        }
+    }
+
+
+    public function showSingleProduct($id)
+    {
+
+        $product = $this->ProductRepository->getSingleProduct($id);
+
+        if ($product) {
+            return ['data' => $product, 'message' => "product found", 'StatusCode' => 200];
+        } else {
+            return ['data' => $product, 'message' => "product not found", 'StatusCode' => 202];
         }
     }
 
@@ -89,8 +102,7 @@ class ProductService
 
 
 
-    public function editProducts(){
-
-        
+    public function editProducts()
+    {
     }
 }

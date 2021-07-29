@@ -30,4 +30,11 @@ class ProductRepository
 
         return "success";
     }
+
+
+    public function getSingleProduct($id){
+
+        $product = Product::find($id);
+        return $product;
+    }
 }
