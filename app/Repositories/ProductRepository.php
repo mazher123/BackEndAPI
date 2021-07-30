@@ -13,7 +13,7 @@ class ProductRepository
     public function getProducts()
     {
 
-        $products = Product::all();
+        $products = Product::orderby('id','desc')->get();
 
         return $products;
     }

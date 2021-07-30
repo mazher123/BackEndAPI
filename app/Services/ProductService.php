@@ -56,7 +56,7 @@ class ProductService
             $validator = Validator::make($request->all(), [
                 'title' => 'required|max:100',
                 'description' => 'required|max:150',
-                'price' => 'required|numeric|max:150',
+                'price' => 'required|numeric|max:1500',
                 'image' => 'mimes:jpeg,jpg,png,gif|max:5120',
 
             ]);
@@ -64,7 +64,7 @@ class ProductService
                 $messages = $validator->messages();
                 $errors = $messages->all();
 
-                return ['message' => $errors, "StatusCode" => 200];
+                return ['message' => $errors, "StatusCode" => 400];
             }
 
 
@@ -72,7 +72,7 @@ class ProductService
             $image1 = date('Ymdhis') . '.' .  $image->getClientOriginalExtension();
             if ($image->move(public_path() . '/image/product/', $image1)) {
 
-                $image = '/image/product/' . $image1;
+                $image = url('/image/product/' . $image1) ;
             }
 
 
@@ -107,14 +107,14 @@ class ProductService
                 $messages = $validator->messages();
                 $errors = $messages->all();
 
-                return ['message' => $errors, "StatusCode" => 200];
+                return ['message' => $errors, "StatusCode" => 400];
             }
 
             if ($image) {
                 $image1 = date('Ymdhis') . '.' .  $image->getClientOriginalExtension();
                 if ($image->move(public_path() . '/image/product/', $image1)) {
 
-                    $image = '/image/product/' . $image1;
+                    $image = url('/image/product/' . $image1) ;
                 }
             }
 
