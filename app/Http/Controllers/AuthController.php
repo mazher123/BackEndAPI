@@ -43,6 +43,7 @@ class AuthController extends Controller
 
         $credentials = $request->only(["email", "password"]);
         $token = null;
+
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
                 "status" => false,
@@ -68,9 +69,9 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
-        // if ($this->loginAfterSignUp) {
-        //     return $this->login($request);
-        // }
+        if ($this->loginAfterSignUp) {
+            return $this->login($request);
+        }
 
         return response()->json([
             "status" => true,

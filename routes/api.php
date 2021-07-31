@@ -23,5 +23,6 @@ Route::group(['middleware' =>'auth.jwt'], function ($router) {
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::resource('products', 'ProductController');
+    Route::post('update-products/{id}', 'ProductController@update');
 
 });

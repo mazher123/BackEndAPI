@@ -6,6 +6,7 @@ use App\Repositories\ProductRepository;
 use Exception;
 use Validator;
 use InvalidArgumentException;
+use phpDocumentor\Reflection\Types\Null_;
 
 class ProductService
 {
@@ -54,9 +55,9 @@ class ProductService
             $image = $request->image;
 
             $validator = Validator::make($request->all(), [
-                'title' => 'required|max:100',
-                'description' => 'required|max:150',
-                'price' => 'required|numeric|max:1500',
+                'title' => 'required',
+                'description' => 'required',
+                'price' => 'required|numeric',
                 'image' => 'mimes:jpeg,jpg,png,gif|max:5120',
 
             ]);
@@ -97,10 +98,10 @@ class ProductService
             $image = $request->image;
 
             $validator = Validator::make($request->all(), [
-                'title' => 'required|max:100',
-                'description' => 'required|max:150',
-                'price' => 'required|numeric|max:150',
-                // 'image' => 'mimes:jpeg,jpg,png,gif|max:5120',
+                'title' => 'required',
+                'description' => 'required',
+                'price' => 'required',
+                //'image' => 'mimes:jpeg,jpg,png,gif|max:5120',
 
             ]);
             if ($validator->fails()) {
@@ -110,7 +111,7 @@ class ProductService
                 return ['message' => $errors, "StatusCode" => 400];
             }
 
-            if ($image) {
+            if ($request->file('image')) {
                 $image1 = date('Ymdhis') . '.' .  $image->getClientOriginalExtension();
                 if ($image->move(public_path() . '/image/product/', $image1)) {
 

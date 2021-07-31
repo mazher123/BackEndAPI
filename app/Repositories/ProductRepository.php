@@ -46,7 +46,10 @@ class ProductRepository
         $product->title = $title;
         $product->description = $description;
         $product->price = $price;
+    
         $product->image = $image;
+      
+        
         $product->Save();
     }
 
